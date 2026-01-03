@@ -267,122 +267,473 @@ const ImageCarousel = ({ images }: { images: string[] }) => {
 };
 
 // Command Palette Component
+// Enhanced Command Palette Component
 const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const [query, setQuery] = useState('');
   const [output, setOutput] = useState<string[]>([]);
+  const [commandHistory, setCommandHistory] = useState<string[]>([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
   
   useEffect(() => {
     if (isOpen && inputRef.current) {
       inputRef.current.focus();
+      // Welcome message
+      if (output.length === 0) {
+        setOutput([
+          '╔════════════════════════════════════════════════╗',
+          '║     Welcome to Kunal\'s Portfolio Terminal     ║',
+          '║           Type "help" for commands            ║',
+          '╚════════════════════════════════════════════════╝',
+          ''
+        ]);
+      }
     }
   }, [isOpen]);
   
+  const commands = {
+    help: {
+      description: 'Show all available commands',
+      execute: () => [
+        '',
+        '╭─ Available Commands ──────────────────────────╮',
+        '│',
+        '│  Navigation:',
+        '│    about          - Show profile information',
+        '│    projects       - List all projects',
+        '│    experience     - Show work experience',
+        '│    education      - Show education details',
+        '│    skills         - Display tech stack',
+        '│',
+        '│  Information:',
+        '│    whoami         - Display current user info',
+        '│    resume         - View resume details',
+        '│    contact        - Show contact information',
+        '│',
+        '│  Projects:',
+        '│    open <name>    - Open project (e.g., open wealthwise)',
+        '│    demo <name>    - View live demo',
+        '│',
+        '│  Social:',
+        '│    github         - Open GitHub profile',
+        '│    linkedin       - Open LinkedIn profile',
+        '│    email          - Copy email address',
+        '│',
+        '│  System:',
+        '│    clear          - Clear terminal',
+        '│    history        - Show command history',
+        '│    theme          - Toggle color theme',
+        '│    stats          - Show GitHub statistics',
+        '│    ascii          - Display ASCII art',
+        '│    exit           - Close terminal',
+        '│',
+        '╰───────────────────────────────────────────────╯',
+        ''
+      ]
+    },
+    
+    whoami: {
+      description: 'Display user information',
+      execute: () => [
+        '',
+        '┌─ User Information ────────────────────────────┐',
+        `│ Name:     ${data.personal.name}`,
+        `│ Role:     ${data.personal.title}`,
+        `│ Location: ${data.personal.location}`,
+        `│ Email:    ${data.personal.email}`,
+        `│ GitHub:   github.com/${data.personal.github}`,
+        `│ Status:   ${data.personal.availability}`,
+        '└───────────────────────────────────────────────┘',
+        ''
+      ]
+    },
+    
+    about: {
+      description: 'Show profile information',
+      execute: () => [
+        '',
+        '📋 About Kunal More',
+        '─'.repeat(50),
+        'Software developer specializing in backend development,',
+        'cloud technologies, and modern web engineering.',
+        '',
+        '🎯 Focus Areas:',
+        '  • Enterprise System Architecture',
+        '  • Microservices & REST APIs',
+        '  • Cloud-Native Solutions',
+        '  • Full-Stack Development',
+        '',
+        '💼 Currently: Software Developer @ Quadient',
+        ''
+      ]
+    },
+    
+    projects: {
+      description: 'List all projects',
+      execute: () => {
+        const lines = [
+          '',
+          '📁 Projects Portfolio',
+          '═'.repeat(50),
+          ''
+        ];
+        data.projects.forEach((p, i) => {
+          lines.push(`${i + 1}. ${p.name}${p.featured ? ' ⭐' : ''}`);
+          lines.push(`   ${p.description}`);
+          lines.push(`   Tech: ${p.tech.join(', ')}`);
+          if (p.live) lines.push(`   🌐 Live: ${p.live}`);
+          lines.push('');
+        });
+        lines.push('💡 Tip: Use "open <project-name>" to view details');
+        lines.push('');
+        return lines;
+      }
+    },
+    
+    experience: {
+      description: 'Show work experience',
+      execute: () => {
+        const lines = [
+          '',
+          '💼 Work Experience',
+          '═'.repeat(50),
+          ''
+        ];
+        data.experience.forEach((exp, i) => {
+          lines.push(`${i + 1}. ${exp.role} @ ${exp.company}`);
+          lines.push(`   ${exp.period}`);
+          lines.push(`   ${exp.description}`);
+          lines.push('');
+          lines.push('   Key Achievements:');
+          exp.achievements.forEach(ach => {
+            lines.push(`   • ${ach}`);
+          });
+          lines.push('');
+          lines.push(`   Technologies: ${exp.tech.join(', ')}`);
+          lines.push('');
+        });
+        return lines;
+      }
+    },
+    
+    education: {
+      description: 'Show education details',
+      execute: () => {
+        const lines = [
+          '',
+          '🎓 Education',
+          '═'.repeat(50),
+          ''
+        ];
+        data.education.forEach((edu, i) => {
+          lines.push(`${i + 1}. ${edu.degree}`);
+          lines.push(`   ${edu.institution} (${edu.year})`);
+          if (edu.cgpa) lines.push(`   CGPA: ${edu.cgpa}`);
+          if (edu.description) lines.push(`   ${edu.description}`);
+          lines.push('');
+        });
+        return lines;
+      }
+    },
+    
+    skills: {
+      description: 'Display tech stack',
+      execute: () => [
+        '',
+        '⚡ Technical Skills',
+        '═'.repeat(50),
+        '',
+        '🔹 Backend:',
+        `   ${data.skills.backend.join(' • ')}`,
+        '',
+        '🔹 Frontend:',
+        `   ${data.skills.frontend.join(' • ')}`,
+        '',
+        '🔹 DevOps & Cloud:',
+        `   ${data.skills.devops.join(' • ')}`,
+        '',
+        '🔹 Databases:',
+        `   ${data.skills.databases.join(' • ')}`,
+        ''
+      ]
+    },
+    
+    contact: {
+      description: 'Show contact information',
+      execute: () => [
+        '',
+        '📬 Contact Information',
+        '═'.repeat(50),
+        '',
+        `📧 Email:    ${data.personal.email}`,
+        `🔗 LinkedIn: linkedin.com/in/${data.personal.linkedin}`,
+        `💻 GitHub:   github.com/${data.personal.github}`,
+        '',
+        `⏱️  Response Time: ${data.personal.responseTime}`,
+        `✅ Status: ${data.personal.availability}`,
+        ''
+      ]
+    },
+    
+    resume: {
+      description: 'View resume details',
+      execute: () => [
+        '',
+        '📄 Resume Summary',
+        '═'.repeat(50),
+        '',
+        '💼 Experience:',
+        ...data.experience.map(e => `   • ${e.role} @ ${e.company}`),
+        '',
+        '🎓 Education:',
+        ...data.education.map(e => `   • ${e.degree} - ${e.institution}`),
+        '',
+        '💡 Download full resume from the hero section!',
+        ''
+      ]
+    },
+    
+    github: {
+      description: 'Open GitHub profile',
+      execute: () => {
+        window.open(`https://github.com/${data.personal.github}`, '_blank');
+        return ['', `✓ Opening GitHub profile: github.com/${data.personal.github}`, ''];
+      }
+    },
+    
+    linkedin: {
+      description: 'Open LinkedIn profile',
+      execute: () => {
+        window.open(`https://linkedin.com/in/${data.personal.linkedin}`, '_blank');
+        return ['', `✓ Opening LinkedIn profile: linkedin.com/in/${data.personal.linkedin}`, ''];
+      }
+    },
+    
+    email: {
+      description: 'Copy email address',
+      execute: () => {
+        navigator.clipboard.writeText(data.personal.email);
+        return ['', `✓ Email copied to clipboard: ${data.personal.email}`, ''];
+      }
+    },
+    
+    stats: {
+      description: 'Show GitHub statistics',
+      execute: () => [
+        '',
+        '📊 GitHub Statistics',
+        '═'.repeat(50),
+        '',
+        '📁 Public Repositories: 15+',
+        '⭐ Total Stars: Growing...',
+        '🔱 Username: Voldemond',
+        '💻 Primary Language: Java',
+        '🌟 Featured Projects: 5',
+        '',
+        '🔗 Visit: github.com/Voldemond',
+        ''
+      ]
+    },
+    
+    history: {
+      description: 'Show command history',
+      execute: () => {
+        if (commandHistory.length === 0) {
+          return ['', '📜 No command history yet', ''];
+        }
+        const lines = ['', '📜 Command History', '─'.repeat(50), ''];
+        commandHistory.forEach((cmd, i) => {
+          lines.push(`${i + 1}. ${cmd}`);
+        });
+        lines.push('');
+        return lines;
+      }
+    },
+    
+    ascii: {
+      description: 'Display ASCII art',
+      execute: () => [
+        '',
+        '    ██╗  ██╗██╗   ██╗███╗   ██╗ █████╗ ██╗     ',
+        '    ██║ ██╔╝██║   ██║████╗  ██║██╔══██╗██║     ',
+        '    █████╔╝ ██║   ██║██╔██╗ ██║███████║██║     ',
+        '    ██╔═██╗ ██║   ██║██║╚██╗██║██╔══██║██║     ',
+        '    ██║  ██╗╚██████╔╝██║ ╚████║██║  ██║███████╗',
+        '    ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝',
+        '',
+        '        🚀 Backend Architect | System Designer',
+        ''
+      ]
+    },
+    
+    theme: {
+      description: 'Toggle color theme',
+      execute: () => ['', '🎨 Theme toggle coming soon!', ''],
+    },
+    
+    clear: {
+      description: 'Clear terminal',
+      execute: () => null
+    },
+    
+    exit: {
+      description: 'Close terminal',
+      execute: () => null
+    }
+  };
+  
   const handleCommand = (cmd: string) => {
+    if (!cmd.trim()) return;
+    
+    // Add to history
+    setCommandHistory(prev => [...prev, cmd]);
+    setHistoryIndex(-1);
+    
     const parts = cmd.trim().toLowerCase().split(' ');
     const command = parts[0];
+    const args = parts.slice(1);
     
-    let result: string[] = [];
-    
-    switch(command) {
-      case 'help':
-        result = [
-          '> Available commands:',
-          '  ls projects     - List all projects',
-          '  whoami          - Show profile info',
-          '  cat resume      - View resume details',
-          '  git stats       - Show GitHub stats',
-          '  clear           - Clear terminal',
-          '  exit            - Close terminal'
-        ];
-        break;
-      case 'ls':
-        if (parts[1] === 'projects') {
-          result = data.projects.map(p => `  📁 ${p.name} - ${p.description}`);
-        }
-        break;
-      case 'whoami':
-        result = [
-          `> ${data.personal.name}`,
-          `  ${data.personal.title}`,
-          `  📍 ${data.personal.location}`,
-          `  ✉️  ${data.personal.email}`
-        ];
-        break;
-      case 'cat':
-        if (parts[1] === 'resume') {
-          result = [
-            '> Experience:',
-            ...data.experience.map(e => `  • ${e.role} at ${e.company}`),
-            '> Education:',
-            ...data.education.map(e => `  • ${e.degree} - ${e.institution}`)
-          ];
-        }
-        break;
-      case 'git':
-        if (parts[1] === 'stats') {
-          result = [
-            '> GitHub Statistics:',
-            '  📊 Public Repos: 8+',
-            '  ⭐ Total Stars: Building...',
-            '  🔱 Username: Voldemond'
-          ];
-        }
-        break;
-      case 'clear':
-        setOutput([]);
-        setQuery('');
-        return;
-      case 'exit':
-        onClose();
-        return;
-      default:
-        result = [`> Command not found: ${command}`, '  Type "help" for available commands'];
+    // Handle special commands
+    if (command === 'clear') {
+      setOutput([]);
+      setQuery('');
+      return;
     }
     
-    setOutput([...output, `$ ${cmd}`, ...result]);
+    if (command === 'exit') {
+      onClose();
+      return;
+    }
+    
+    // Handle open <project>
+    if (command === 'open' && args.length > 0) {
+      const projectName = args.join(' ');
+      const project = data.projects.find(p => 
+        p.name.toLowerCase().includes(projectName)
+      );
+      
+      if (project) {
+        window.open(project.github, '_blank');
+        setOutput([...output, `$ ${cmd}`, '', `✓ Opening ${project.name} on GitHub...`, '']);
+      } else {
+        setOutput([...output, `$ ${cmd}`, '', `✗ Project "${projectName}" not found`, '']);
+      }
+      setQuery('');
+      return;
+    }
+    
+    // Handle demo <project>
+    if (command === 'demo' && args.length > 0) {
+      const projectName = args.join(' ');
+      const project = data.projects.find(p => 
+        p.name.toLowerCase().includes(projectName) && p.live
+      );
+      
+      if (project && project.live) {
+        window.open(project.live, '_blank');
+        setOutput([...output, `$ ${cmd}`, '', `✓ Opening ${project.name} live demo...`, '']);
+      } else {
+        setOutput([...output, `$ ${cmd}`, '', `✗ No live demo available for "${projectName}"`, '']);
+      }
+      setQuery('');
+      return;
+    }
+    
+    // Execute command
+    if (commands[command as keyof typeof commands]) {
+      const result = commands[command as keyof typeof commands].execute();
+      if (result === null) return; // For clear/exit
+      setOutput([...output, `$ ${cmd}`, ...result]);
+    } else {
+      setOutput([
+        ...output, 
+        `$ ${cmd}`,
+        '',
+        `✗ Command not found: ${command}`,
+        '  Type "help" for available commands',
+        ''
+      ]);
+    }
+    
     setQuery('');
+  };
+  
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleCommand(query);
+    } else if (e.key === 'Escape') {
+      onClose();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (commandHistory.length > 0) {
+        const newIndex = historyIndex === -1 ? commandHistory.length - 1 : Math.max(0, historyIndex - 1);
+        setHistoryIndex(newIndex);
+        setQuery(commandHistory[newIndex]);
+      }
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (historyIndex !== -1) {
+        const newIndex = historyIndex + 1;
+        if (newIndex >= commandHistory.length) {
+          setHistoryIndex(-1);
+          setQuery('');
+        } else {
+          setHistoryIndex(newIndex);
+          setQuery(commandHistory[newIndex]);
+        }
+      }
+    }
   };
   
   if (!isOpen) return null;
   
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-gray-900 rounded-lg w-full max-w-2xl shadow-2xl border border-gray-700">
-        <div className="flex items-center justify-between p-4 border-b border-gray-700">
-          <div className="flex items-center gap-2">
-            <Terminal className="w-5 h-5 text-blue-400" />
-            <span className="text-gray-300 font-mono text-sm">terminal@portfolio</span>
+    <div className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="bg-gray-950 rounded-lg w-full max-w-4xl shadow-2xl border border-gray-700 overflow-hidden">
+        {/* Terminal Header */}
+        <div className="flex items-center justify-between p-3 border-b border-gray-700 bg-gray-900">
+          <div className="flex items-center gap-3">
+            <div className="flex gap-2">
+              <div className="w-3 h-3 rounded-full bg-red-500"></div>
+              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+              <div className="w-3 h-3 rounded-full bg-green-500"></div>
+            </div>
+            <Terminal className="w-4 h-4 text-green-400" />
+            <span className="text-gray-300 font-mono text-sm">kunal@portfolio:~$</span>
           </div>
-          <button onClick={onClose} className="text-gray-400 hover:text-white">
+          <button onClick={onClose} className="text-gray-400 hover:text-white transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
         
-        <div className="p-4 h-96 overflow-y-auto font-mono text-sm">
-          <div className="text-gray-400 mb-4">
-            Welcome to Kunal&apos;s Portfolio Terminal! Type &apos;help&apos; for commands.
-          </div>
-          
+        {/* Terminal Output */}
+        <div className="p-6 h-[600px] overflow-y-auto font-mono text-sm bg-gray-950">
           {output.map((line, i) => (
-            <div key={i} className={line.startsWith('$') ? 'text-green-400 mt-2' : 'text-gray-300'}>
-              {line}
+            <div 
+              key={i} 
+              className={`
+                ${line.startsWith('$') ? 'text-green-400 mt-3 mb-1' : ''}
+                ${line.startsWith('✓') ? 'text-green-400' : ''}
+                ${line.startsWith('✗') ? 'text-red-400' : ''}
+                ${line.startsWith('💡') || line.startsWith('🔗') ? 'text-blue-400' : ''}
+                ${line.includes('═') || line.includes('─') || line.includes('│') || line.includes('╔') || line.includes('╗') || line.includes('╚') || line.includes('╝') || line.includes('┌') || line.includes('┐') || line.includes('└') || line.includes('┘') || line.includes('├') || line.includes('┤') || line.includes('╭') || line.includes('╮') || line.includes('╰') || line.includes('╯') ? 'text-gray-500' : 'text-gray-300'}
+              `}
+            >
+              {line || '\u00A0'}
             </div>
           ))}
           
-          <div className="flex items-center gap-2 mt-2">
+          {/* Input Line */}
+          <div className="flex items-center gap-2 mt-3">
             <span className="text-green-400">$</span>
             <input
               ref={inputRef}
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') handleCommand(query);
-                if (e.key === 'Escape') onClose();
-              }}
-              className="flex-1 bg-transparent text-white outline-none"
-              placeholder="Type a command..."
+              onKeyDown={handleKeyDown}
+              className="flex-1 bg-transparent text-white outline-none caret-green-400"
+              placeholder="Type 'help' for commands..."
             />
           </div>
         </div>
