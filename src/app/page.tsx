@@ -1,8 +1,52 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, Download, ChevronRight, Code, Database, Cloud, Server, Briefcase, GraduationCap, Award, MapPin, Calendar, Terminal, Command } from 'lucide-react';
-import { data } from '@/lib/data';
-import CommandPalette from '@/components/CommandPalette';
+import React, { useState, useEffect, useRef } from 'react';
+import { Search, Terminal, Github, Linkedin, Mail, Download, ExternalLink, ChevronRight, Code, Database, Cloud, Server, Briefcase, GraduationCap, Award, MapPin, Calendar, X, Command } from 'lucide-react';
+
+// Types
+interface Personal {
+  name: string;
+  title: string;
+  tagline: string;
+  location: string;
+  email: string;
+  github: string;
+  linkedin: string;
+  availability: string;
+  responseTime: string;
+}
+
+interface Experience {
+  company: string;
+  role: string;
+  period: string;
+  logo: string;
+  description: string;
+  achievements: string[];
+  tech: string[];
+}
+
+interface Project {
+  name: string;
+  description: string;
+  tech: string[];
+  github: string;
+  featured?: boolean;
+}
+
+interface Skills {
+  backend: string[];
+  frontend: string[];
+  devops: string[];
+  databases: string[];
+}
+
+interface Education {
+  degree: string;
+  institution: string;
+  year: string;
+  description: string;
+  cgpa?: string;
+}
 
 interface Particle {
   id: number;
@@ -12,13 +56,227 @@ interface Particle {
   duration: number;
 }
 
+// Data
+const data = {
+  personal: {
+    name: "Kunal More",
+    title: "Backend Architect | System Designer",
+    tagline: "Building scalable enterprise systems with modern tech",
+    location: "Mumbai, India",
+    email: "morekunal1335@gmail.com",
+    github: "Voldemond",
+    linkedin: "kunal-more",
+    availability: "Open to opportunities",
+    responseTime: "24 hours"
+  },
+  
+  experience: [
+    {
+      company: "Quadient (FCI)",
+      role: "Software Developer",
+      period: "May 2025 - Present",
+      logo: "Q",
+      description: "Backend-integrated enterprise workflows for customer communication systems",
+      achievements: [
+        "Developed automated XML/CSV data transformation pipelines",
+        "Integrated RESTful APIs for dynamic data processing",
+        "Managed production deployments and change requests"
+      ],
+      tech: ["Java", "Groovy", "REST APIs", "SQL", "XML"]
+    },
+    {
+      company: "Aayacare Private Limited",
+      role: "React Developer / Manual Tester",
+      period: "July 2023 - Sept 2023",
+      logo: "A",
+      description: "Frontend development and QA testing internship",
+      achievements: [
+        "Enhanced React components with REST API integration",
+        "Performed cross-browser and regression testing",
+        "Assisted in AWS-based deployments"
+      ],
+      tech: ["React", "JavaScript", "AWS", "REST APIs"]
+    }
+  ],
+  
+  projects: [
+    {
+      name: "WealthWise",
+      description: "Full-stack trading platform with JWT authentication and microservices architecture",
+      tech: ["Spring Boot", "Hibernate", "MySQL", "JWT", "REST APIs"],
+      github: "https://github.com/Voldemond",
+      featured: true
+    },
+    {
+      name: "Car Rental Service",
+      description: "CRUD-based backend application with booking and management features",
+      tech: ["Java", "MySQL", "JavaScript", "HTML/CSS"],
+      github: "https://github.com/Voldemond"
+    },
+    {
+      name: "Real Estate Blockchain",
+      description: "Blockchain-integrated backend for secure property transactions",
+      tech: ["Java", "Blockchain", "Smart Contracts", "APIs"],
+      github: "https://github.com/Voldemond"
+    }
+  ],
+  
+  skills: {
+    backend: ["Java", "Spring Boot", "Hibernate", "REST APIs", "Groovy"],
+    frontend: ["React", "JavaScript", "HTML/CSS", "TypeScript"],
+    devops: ["Docker", "Jenkins", "AWS", "CI/CD", "Linux"],
+    databases: ["MySQL", "MongoDB"]
+  },
+  
+  education: [
+    {
+      degree: "PG-DAC",
+      institution: "CDAC",
+      year: "2025",
+      description: "Advanced Computing"
+    },
+    {
+      degree: "B.E. Information Technology",
+      institution: "University of Mumbai",
+      year: "2024",
+      cgpa: "7.9",
+      description: ""
+    }
+  ]
+};
+
+// Command Palette Component
+const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  const [query, setQuery] = useState('');
+  const [output, setOutput] = useState<string[]>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
+  
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isOpen]);
+  
+  const handleCommand = (cmd: string) => {
+    const parts = cmd.trim().toLowerCase().split(' ');
+    const command = parts[0];
+    
+    let result: string[] = [];
+    
+    switch(command) {
+      case 'help':
+        result = [
+          '> Available commands:',
+          '  ls projects     - List all projects',
+          '  whoami         - Show profile info',
+          '  cat resume     - View resume details',
+          '  git stats      - Show GitHub stats',
+          '  clear          - Clear terminal',
+          '  exit           - Close terminal'
+        ];
+        break;
+      case 'ls':
+        if (parts[1] === 'projects') {
+          result = data.projects.map(p => `  📁 ${p.name} - ${p.description}`);
+        }
+        break;
+      case 'whoami':
+        result = [
+          `> ${data.personal.name}`,
+          `  ${data.personal.title}`,
+          `  📍 ${data.personal.location}`,
+          `  ✉️  ${data.personal.email}`
+        ];
+        break;
+      case 'cat':
+        if (parts[1] === 'resume') {
+          result = [
+            '> Experience:',
+            ...data.experience.map(e => `  • ${e.role} at ${e.company}`),
+            '> Education:',
+            ...data.education.map(e => `  • ${e.degree} - ${e.institution}`)
+          ];
+        }
+        break;
+      case 'git':
+        if (parts[1] === 'stats') {
+          result = [
+            '> GitHub Statistics:',
+            '  📊 Public Repos: 8+',
+            '  ⭐ Total Stars: Building...',
+            '  🔱 Username: Voldemond'
+          ];
+        }
+        break;
+      case 'clear':
+        setOutput([]);
+        setQuery('');
+        return;
+      case 'exit':
+        onClose();
+        return;
+      default:
+        result = [`> Command not found: ${command}`, '  Type "help" for available commands'];
+    }
+    
+    setOutput([...output, `$ ${cmd}`, ...result]);
+    setQuery('');
+  };
+  
+  if (!isOpen) return null;
+  
+  return (
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="bg-gray-900 rounded-lg w-full max-w-2xl shadow-2xl border border-gray-700">
+        <div className="flex items-center justify-between p-4 border-b border-gray-700">
+          <div className="flex items-center gap-2">
+            <Terminal className="w-5 h-5 text-blue-400" />
+            <span className="text-gray-300 font-mono text-sm">terminal@portfolio</span>
+          </div>
+          <button onClick={onClose} className="text-gray-400 hover:text-white">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        
+        <div className="p-4 h-96 overflow-y-auto font-mono text-sm">
+          <div className="text-gray-400 mb-4">
+            Welcome to Kunal Portfolio Terminal! Type help for commands.
+          </div>
+          
+          {output.map((line, i) => (
+            <div key={i} className={line.startsWith('$') ? 'text-green-400 mt-2' : 'text-gray-300'}>
+              {line}
+            </div>
+          ))}
+          
+          <div className="flex items-center gap-2 mt-2">
+            <span className="text-green-400">$</span>
+            <input
+              ref={inputRef}
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleCommand(query);
+                if (e.key === 'Escape') onClose();
+              }}
+              className="flex-1 bg-transparent text-white outline-none"
+              placeholder="Type a command..."
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Main Portfolio Component
 export default function Portfolio() {
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [particles, setParticles] = useState<Particle[]>([]);
   
   useEffect(() => {
-    // Generate particles
-    const newParticles = Array.from({ length: 30 }, (_, i) => ({
+    const newParticles: Particle[] = Array.from({ length: 30 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
@@ -27,7 +285,6 @@ export default function Portfolio() {
     }));
     setParticles(newParticles);
     
-    // Keyboard shortcut
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
@@ -44,8 +301,7 @@ export default function Portfolio() {
   }, []);
   
   return (
-    <div className="min-h-screen bg-gray-950 text-white selection:bg-blue-500/30">
-      {/* Animated Background */}
+    <div className="min-h-screen bg-gray-950 text-white">
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-950/20 via-gray-950 to-purple-950/20" />
         {particles.map(p => (
@@ -63,13 +319,12 @@ export default function Portfolio() {
         ))}
       </div>
       
-      {/* Navigation */}
       <nav className="fixed top-0 w-full backdrop-blur-md bg-gray-900/50 border-b border-gray-800 z-40">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="font-mono text-blue-400 font-bold">{'<KM />'}</div>
           <button
             onClick={() => setCommandPaletteOpen(true)}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-800/50 border border-gray-700 hover:border-blue-500 transition-colors text-sm cursor-pointer"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-800/50 border border-gray-700 hover:border-blue-500 transition-colors text-sm"
           >
             <Command className="w-4 h-4" />
             <span className="text-gray-400">Press ⌘K</span>
@@ -78,8 +333,7 @@ export default function Portfolio() {
       </nav>
       
       <div className="relative pt-20">
-        {/* Hero Section */}
-        <section className="min-h-screen flex items-center justify-center px-6 -mt-20">
+        <section className="min-h-screen flex items-center justify-center px-6">
           <div className="max-w-4xl text-center space-y-8">
             <div className="font-mono text-blue-400 animate-pulse">
               {'> KUNAL_MORE.init()'}
@@ -102,9 +356,9 @@ export default function Portfolio() {
               <a href="#projects" className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-colors flex items-center gap-2">
                 View Projects <ChevronRight className="w-4 h-4" />
               </a>
-              <a href="/resume.pdf" target="_blank" className="px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-lg font-medium transition-colors flex items-center gap-2">
+              <button className="px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-lg font-medium transition-colors flex items-center gap-2">
                 <Download className="w-4 h-4" /> Resume
-              </a>
+              </button>
             </div>
             
             <div className="flex gap-6 justify-center text-gray-400">
@@ -121,7 +375,6 @@ export default function Portfolio() {
           </div>
         </section>
         
-        {/* About Section */}
         <section className="py-20 px-6">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl font-bold mb-12 flex items-center gap-3">
@@ -200,7 +453,7 @@ export default function Portfolio() {
                 <div className="pt-4">
                   <h3 className="font-semibold mb-3 text-white">Currently Exploring</h3>
                   <div className="flex flex-wrap gap-2">
-                    {['Spring', 'Hibernate', 'Apache Struts', 'Go', 'Rust'].map(tech => (
+                    {['Spring', 'Hibernate', 'Apache Structs'].map(tech => (
                       <span key={tech} className="px-3 py-1 bg-blue-500/20 border border-blue-500/30 rounded-full text-sm text-blue-300">
                         {tech}
                       </span>
@@ -212,7 +465,6 @@ export default function Portfolio() {
           </div>
         </section>
         
-        {/* Tech Stack */}
         <section className="py-20 px-6 bg-gray-900/30">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl font-bold mb-12 flex items-center gap-3">
@@ -272,7 +524,6 @@ export default function Portfolio() {
           </div>
         </section>
         
-        {/* Experience */}
         <section className="py-20 px-6">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl font-bold mb-12 flex items-center gap-3">
@@ -326,7 +577,6 @@ export default function Portfolio() {
           </div>
         </section>
         
-        {/* Projects */}
         <section id="projects" className="py-20 px-6 bg-gray-900/30">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl font-bold mb-12 flex items-center gap-3">
@@ -375,7 +625,6 @@ export default function Portfolio() {
           </div>
         </section>
         
-        {/* Education */}
         <section className="py-20 px-6">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl font-bold mb-12 flex items-center gap-3">
@@ -388,7 +637,7 @@ export default function Portfolio() {
                 <div key={i} className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 backdrop-blur hover:border-blue-500 transition-colors">
                   <div className="font-bold text-lg mb-1">{edu.degree}</div>
                   <div className="text-blue-400 mb-2">{edu.institution}</div>
-                  <div className="text-gray-400 text-sm mb-2">{edu.description}</div>
+                  {edu.description && <div className="text-gray-400 text-sm mb-2">{edu.description}</div>}
                   <div className="flex items-center gap-2 text-sm text-gray-500">
                     <Calendar className="w-4 h-4" />
                     {edu.year}
@@ -400,10 +649,9 @@ export default function Portfolio() {
           </div>
         </section>
         
-        {/* Contact */}
         <section className="py-20 px-6 bg-gray-900/30">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl font-bold mb-6">Let's Build Something Incredible</h2>
+            <h2 className="text-4xl font-bold mb-6">Let Build Something Incredible</h2>
             <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
               Open to discussing new opportunities, collaborations, or just chatting about technology.
               I typically respond within 24 hours.
@@ -440,7 +688,6 @@ export default function Portfolio() {
           </div>
         </section>
         
-        {/* Footer */}
         <footer className="py-8 px-6 border-t border-gray-800">
           <div className="max-w-6xl mx-auto flex items-center justify-between text-sm text-gray-400">
             <div>© 2026 Kunal More. Built with React + Next.js</div>
@@ -451,11 +698,21 @@ export default function Portfolio() {
         </footer>
       </div>
       
-      {/* Command Palette */}
       <CommandPalette
         isOpen={commandPaletteOpen}
         onClose={() => setCommandPaletteOpen(false)}
       />
+      
+      <style>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-20px); }
+        }
+        
+        kbd {
+          box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+        }
+      `}</style>
     </div>
   );
 }

@@ -8,11 +8,6 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      // 👇 THIS IS THE MISSING PART THAT FIXES THE FONTS
-      fontFamily: {
-        sans: ['var(--font-inter)'],
-        mono: ['var(--font-mono)'],
-      },
       animation: {
         'float': 'float 20s ease-in-out infinite',
       },
