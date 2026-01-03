@@ -30,6 +30,7 @@ interface Project {
   description: string;
   tech: string[];
   github: string;
+  live?: string;
   featured?: boolean;
 }
 
@@ -65,7 +66,7 @@ const data = {
     location: "Mumbai, India",
     email: "morekunal1335@gmail.com",
     github: "Voldemond",
-    linkedin: "kunal-more",
+    linkedin: "kunal-more13",
     availability: "Open to opportunities",
     responseTime: "24 hours"
   },
@@ -104,27 +105,36 @@ const data = {
       name: "WealthWise",
       description: "Full-stack trading platform with JWT authentication and microservices architecture",
       tech: ["Spring Boot", "Hibernate", "MySQL", "JWT", "REST APIs"],
-      github: "https://github.com/Voldemond",
+      github: "https://github.com/Voldemond/WealthWise",
       featured: true
     },
+    
     {
       name: "Car Rental Service",
       description: "CRUD-based backend application with booking and management features",
       tech: ["Java", "MySQL", "JavaScript", "HTML/CSS"],
-      github: "https://github.com/Voldemond"
+      github: "https://github.com/Voldemond/car-rental"
+    },
+    {
+      name: "PasteKaro",
+      description: "Modern paste-sharing platform with real-time collaboration and syntax highlighting",
+      tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Vercel"],
+      github: "https://github.com/Voldemond/pastekaro",
+      live: "https://pastekaro.vercel.app",
+      featured: true
     },
     {
       name: "Real Estate Blockchain",
       description: "Blockchain-integrated backend for secure property transactions",
       tech: ["Java", "Blockchain", "Smart Contracts", "APIs"],
-      github: "https://github.com/Voldemond"
+      github: "https://github.com/Voldemond/real-estate-blockchain"
     }
   ],
   
   skills: {
     backend: ["Java", "Spring Boot", "Hibernate", "REST APIs", "Groovy"],
-    frontend: ["React", "JavaScript", "HTML/CSS", "TypeScript"],
-    devops: ["Docker", "Jenkins", "AWS", "CI/CD", "Linux"],
+    frontend: ["React", "Next.js", "JavaScript", "TypeScript", "HTML/CSS"],
+    devops: ["Docker", "Jenkins", "AWS", "CI/CD", "Linux", "Vercel"],
     databases: ["MySQL", "MongoDB"]
   },
   
@@ -168,11 +178,11 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         result = [
           '> Available commands:',
           '  ls projects     - List all projects',
-          '  whoami         - Show profile info',
-          '  cat resume     - View resume details',
-          '  git stats      - Show GitHub stats',
-          '  clear          - Clear terminal',
-          '  exit           - Close terminal'
+          '  whoami          - Show profile info',
+          '  cat resume      - View resume details',
+          '  git stats       - Show GitHub stats',
+          '  clear           - Clear terminal',
+          '  exit            - Close terminal'
         ];
         break;
       case 'ls':
@@ -240,7 +250,7 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         
         <div className="p-4 h-96 overflow-y-auto font-mono text-sm">
           <div className="text-gray-400 mb-4">
-            Welcome to Kunal Portfolio Terminal! Type help for commands.
+            Welcome to Kunal&apos;s Portfolio Terminal! Type &apos;help&apos; for commands.
           </div>
           
           {output.map((line, i) => (
@@ -356,9 +366,13 @@ export default function Portfolio() {
               <a href="#projects" className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-colors flex items-center gap-2">
                 View Projects <ChevronRight className="w-4 h-4" />
               </a>
-              <button className="px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-lg font-medium transition-colors flex items-center gap-2">
+              <a 
+                href="/resume.pdf" 
+                download="Kunal_More_Resume.pdf"
+                className="px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-lg font-medium transition-colors flex items-center gap-2"
+              >
                 <Download className="w-4 h-4" /> Resume
-              </button>
+              </a>
             </div>
             
             <div className="flex gap-6 justify-center text-gray-400">
@@ -610,7 +624,8 @@ export default function Portfolio() {
                   </div>
                   
                   <div className="flex gap-3">
-                    <a
+                    
+                    <a 
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -618,6 +633,17 @@ export default function Portfolio() {
                     >
                       <Github className="w-4 h-4" /> Code
                     </a>
+                    {project.live && (
+                      
+                      <a 
+                        href={project.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 text-sm text-green-400 hover:text-green-300 transition-colors"
+                      >
+                        <ExternalLink className="w-4 h-4" /> Live 
+                      </a>
+                    )}
                   </div>
                 </div>
               ))}
@@ -651,20 +677,22 @@ export default function Portfolio() {
         
         <section className="py-20 px-6 bg-gray-900/30">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl font-bold mb-6">Let Build Something Incredible</h2>
+            <h2 className="text-4xl font-bold mb-6">Let&apos;s Build Something Incredible</h2>
             <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
               Open to discussing new opportunities, collaborations, or just chatting about technology.
               I typically respond within 24 hours.
             </p>
             
             <div className="flex gap-4 justify-center flex-wrap mb-8">
-              <a
+              
+              <a 
                 href={`mailto:${data.personal.email}`}
                 className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-colors flex items-center gap-2"
               >
                 <Mail className="w-4 h-4" /> Email Me
               </a>
-              <a
+              
+              <a 
                 href={`https://linkedin.com/in/${data.personal.linkedin}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -672,7 +700,8 @@ export default function Portfolio() {
               >
                 <Linkedin className="w-4 h-4" /> LinkedIn
               </a>
-              <a
+              
+              <a 
                 href={`https://github.com/${data.personal.github}`}
                 target="_blank"
                 rel="noopener noreferrer"
