@@ -31,6 +31,7 @@ interface Project {
   tech: string[];
   github: string;
   live?: string;
+  images?: string[];
   featured?: boolean;
 }
 
@@ -105,7 +106,19 @@ const data = {
       name: "WealthWise",
       description: "Full-stack trading platform with JWT authentication and microservices architecture",
       tech: ["Spring Boot", "Hibernate", "MySQL", "JWT", "REST APIs"],
-      github: "https://github.com/Voldemond/WealthWise",
+      github: "https://github.com/Voldemond/WEALTHWISE",
+      images: [
+      "/projects/wealthwise/1.png",
+      "/projects/wealthwise/2.png",
+      "/projects/wealthwise/3.png",
+      "/projects/wealthwise/4.png",
+      "/projects/wealthwise/5.png",
+      "/projects/wealthwise/6.png",
+      "/projects/wealthwise/7.png",
+      "/projects/wealthwise/8.png",
+      "/projects/wealthwise/9.png",
+      "/projects/wealthwise/10.png"
+    ],
       featured: true
     },
     
@@ -113,7 +126,11 @@ const data = {
       name: "Car Rental Service",
       description: "CRUD-based backend application with booking and management features",
       tech: ["Java", "MySQL", "JavaScript", "HTML/CSS"],
-      github: "https://github.com/Voldemond/car-rental"
+      github: "https://github.com/Voldemond/Webistan",
+    images: [
+      "/projects/webistan/1.png",
+      "/projects/webistan/2.png"
+    ],
     },
     {
       name: "PasteKaro",
@@ -121,14 +138,45 @@ const data = {
       tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Vercel"],
       github: "https://github.com/Voldemond/pastekaro",
       live: "https://pastekaro.vercel.app",
+    images: [
+      "/projects/pastekaro/1.png",
+      "/projects/pastekaro/2.png",
+      "/projects/pastekaro/3.png",
+      "/projects/pastekaro/4.png",
+      "/projects/pastekaro/5.png"
+    ],
       featured: true
     },
     {
       name: "Real Estate Blockchain",
       description: "Blockchain-integrated backend for secure property transactions",
       tech: ["Java", "Blockchain", "Smart Contracts", "APIs"],
-      github: "https://github.com/Voldemond/real-estate-blockchain"
-    }
+      github: "https://github.com/Voldemond/Web-3.0",
+    images: [
+      "/projects/Web/1.png",
+      "/projects/Web/2.png",
+      "/projects/Web/3.png",
+      "/projects/Web/4.png",
+      "/projects/Web/5.png",
+      "/projects/Web/6.png"
+    ],
+    },
+  {
+    name: "Dinezzy",
+    description: "Full-stack food ordering and restaurant management platform with real-time features",
+    tech: ["React", "Firebase", "JavaScript", "HTML/CSS"],
+    github: "https://github.com/Voldemond/Dinezzy",
+    live: "https://dinezzy-48f0f.web.app/home",
+    images: [
+      "/projects/dinezzy/1.png",
+      "/projects/dinezzy/2.png",
+      "/projects/dinezzy/3.png",
+      "/projects/dinezzy/4.png",
+      "/projects/dinezzy/5.png",
+      "/projects/dinezzy/6.png"
+    ],
+    featured: true
+  }
   ],
   
   skills: {
@@ -153,6 +201,69 @@ const data = {
       description: ""
     }
   ]
+};
+const ImageCarousel = ({ images }: { images: string[] }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const nextImage = () => {
+    setCurrentIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const prevImage = () => {
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  if (!images || images.length === 0) return null;
+
+  return (
+    <div className="relative w-full h-64 bg-gray-800 rounded-lg overflow-hidden mb-4 group">
+      <img
+        src={images[currentIndex]}
+        alt={`Screenshot ${currentIndex + 1}`}
+        className="w-full h-full object-cover"
+      />
+      
+      {/* Navigation Arrows */}
+      {images.length > 1 && (
+        <>
+          <button
+            onClick={prevImage}
+            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            <ChevronRight className="w-5 h-5 rotate-180" />
+          </button>
+          <button
+            onClick={nextImage}
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </>
+      )}
+
+      {/* Image Counter */}
+      {images.length > 1 && (
+        <div className="absolute bottom-2 right-2 bg-black/70 text-white px-3 py-1 rounded-full text-xs">
+          {currentIndex + 1} / {images.length}
+        </div>
+      )}
+
+      {/* Dot Indicators */}
+      {images.length > 1 && (
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
+          {images.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentIndex(idx)}
+              className={`w-2 h-2 rounded-full transition-all ${
+                idx === currentIndex ? 'bg-blue-400 w-4' : 'bg-white/50'
+              }`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
 };
 
 // Command Palette Component
@@ -400,9 +511,13 @@ export default function Portfolio() {
               <div className="space-y-6">
                 <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 backdrop-blur">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-400 to-purple-400 flex items-center justify-center text-2xl font-bold">
-                      KM
-                    </div>
+                    <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-blue-400 hover:border-purple-400 transition-all duration-300 hover:scale-110">
+  <img 
+    src="/profile.jpg" 
+    alt="Kunal More" 
+    className="w-full h-full object-cover"
+  />
+</div>
                     <div>
                       <div className="font-bold text-lg">{data.personal.name}</div>
                       <div className="text-gray-400 text-sm">{data.personal.title}</div>
@@ -611,6 +726,9 @@ export default function Portfolio() {
                       Featured
                     </div>
                   )}
+                  {project.images && project.images.length > 0 && (
+        <ImageCarousel images={project.images} />
+      )}
                   
                   <h3 className="font-bold text-xl mb-2">{project.name}</h3>
                   <p className="text-gray-400 mb-4 text-sm">{project.description}</p>
