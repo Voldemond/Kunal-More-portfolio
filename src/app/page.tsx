@@ -71,11 +71,11 @@ const data = {
     availability: "Open to opportunities",
     responseTime: "24 hours"
   },
-  
+
   experience: [
     {
-      company: "Quadient (FCI)",
-      role: "Software Developer",
+      company: "FCI CCM ",
+      role: "Quadient Software Developer",
       period: "May 2025 - Present",
       logo: "Q",
       description: "Backend-integrated enterprise workflows for customer communication systems",
@@ -100,7 +100,7 @@ const data = {
       tech: ["React", "JavaScript", "AWS", "REST APIs"]
     }
   ],
-  
+
   projects: [
     {
       name: "WealthWise",
@@ -108,29 +108,29 @@ const data = {
       tech: ["Spring Boot", "Hibernate", "MySQL", "JWT", "REST APIs"],
       github: "https://github.com/Voldemond/WEALTHWISE",
       images: [
-      "/projects/wealthwise/1.png",
-      "/projects/wealthwise/2.png",
-      "/projects/wealthwise/3.png",
-      "/projects/wealthwise/4.png",
-      "/projects/wealthwise/5.png",
-      "/projects/wealthwise/6.png",
-      "/projects/wealthwise/7.png",
-      "/projects/wealthwise/8.png",
-      "/projects/wealthwise/9.png",
-      "/projects/wealthwise/10.png"
-    ],
+        "/projects/wealthwise/1.png",
+        "/projects/wealthwise/2.png",
+        "/projects/wealthwise/3.png",
+        "/projects/wealthwise/4.png",
+        "/projects/wealthwise/5.png",
+        "/projects/wealthwise/6.png",
+        "/projects/wealthwise/7.png",
+        "/projects/wealthwise/8.png",
+        "/projects/wealthwise/9.png",
+        "/projects/wealthwise/10.png"
+      ],
       featured: true
     },
-    
+
     {
       name: "Car Rental Service",
       description: "CRUD-based backend application with booking and management features",
       tech: ["Java", "MySQL", "JavaScript", "HTML/CSS"],
       github: "https://github.com/Voldemond/Webistan",
-    images: [
-      "/projects/webistan/1.png",
-      "/projects/webistan/2.png"
-    ],
+      images: [
+        "/projects/webistan/1.png",
+        "/projects/webistan/2.png"
+      ],
     },
     {
       name: "PasteKaro",
@@ -138,13 +138,13 @@ const data = {
       tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Vercel"],
       github: "https://github.com/Voldemond/pastekaro",
       live: "https://pastekaro.vercel.app",
-    images: [
-      "/projects/pastekaro/1.png",
-      "/projects/pastekaro/2.png",
-      "/projects/pastekaro/3.png",
-      "/projects/pastekaro/4.png",
-      "/projects/pastekaro/5.png"
-    ],
+      images: [
+        "/projects/pastekaro/1.png",
+        "/projects/pastekaro/2.png",
+        "/projects/pastekaro/3.png",
+        "/projects/pastekaro/4.png",
+        "/projects/pastekaro/5.png"
+      ],
       featured: true
     },
     {
@@ -152,40 +152,40 @@ const data = {
       description: "Blockchain-integrated backend for secure property transactions",
       tech: ["Java", "Blockchain", "Smart Contracts", "APIs"],
       github: "https://github.com/Voldemond/Web-3.0",
-    images: [
-      "/projects/Web/1.png",
-      "/projects/Web/2.png",
-      "/projects/Web/3.png",
-      "/projects/Web/4.png",
-      "/projects/Web/5.png",
-      "/projects/Web/6.png"
-    ],
+      images: [
+        "/projects/Web/1.png",
+        "/projects/Web/2.png",
+        "/projects/Web/3.png",
+        "/projects/Web/4.png",
+        "/projects/Web/5.png",
+        "/projects/Web/6.png"
+      ],
     },
-  {
-    name: "Dinezzy",
-    description: "Full-stack food ordering and restaurant management platform with real-time features",
-    tech: ["React", "Firebase", "JavaScript", "HTML/CSS"],
-    github: "https://github.com/Voldemond/Dinezzy",
-    live: "https://dinezzy-48f0f.web.app/home",
-    images: [
-      "/projects/dinezzy/1.png",
-      "/projects/dinezzy/2.png",
-      "/projects/dinezzy/3.png",
-      "/projects/dinezzy/4.png",
-      "/projects/dinezzy/5.png",
-      "/projects/dinezzy/6.png"
-    ],
-    featured: true
-  }
+    {
+      name: "Dinezzy",
+      description: "Full-stack food ordering and restaurant management platform with real-time features",
+      tech: ["React", "Firebase", "JavaScript", "HTML/CSS"],
+      github: "https://github.com/Voldemond/Dinezzy",
+      live: "https://dinezzy-48f0f.web.app/home",
+      images: [
+        "/projects/dinezzy/1.png",
+        "/projects/dinezzy/2.png",
+        "/projects/dinezzy/3.png",
+        "/projects/dinezzy/4.png",
+        "/projects/dinezzy/5.png",
+        "/projects/dinezzy/6.png"
+      ],
+      featured: true
+    }
   ],
-  
+
   skills: {
     backend: ["Java", "Spring Boot", "Hibernate", "REST APIs", "Groovy"],
     frontend: ["React", "Next.js", "JavaScript", "TypeScript", "HTML/CSS"],
     devops: ["Docker", "Jenkins", "AWS", "CI/CD", "Linux", "Vercel"],
     databases: ["MySQL", "MongoDB"]
   },
-  
+
   education: [
     {
       degree: "PG-DAC",
@@ -202,6 +202,102 @@ const data = {
     }
   ]
 };
+// Spotlight Card Component
+const SpotlightCard = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => {
+  const divRef = useRef<HTMLDivElement>(null);
+  const [isFocused, setIsFocused] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [opacity, setOpacity] = useState(0);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!divRef.current || isFocused) return;
+
+    const div = divRef.current;
+    const rect = div.getBoundingClientRect();
+
+    setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    setOpacity(1);
+  };
+
+  const handleFocus = () => {
+    setIsFocused(true);
+    setOpacity(1);
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+    setOpacity(0);
+  };
+
+  const handleMouseEnter = () => {
+    setOpacity(1);
+  };
+
+  const handleMouseLeave = () => {
+    setOpacity(0);
+  };
+
+  return (
+    <div
+      ref={divRef}
+      onMouseMove={handleMouseMove}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className={`relative rounded-xl border border-gray-800 bg-gray-900/50 overflow-hidden ${className}`}
+    >
+      <div
+        className="pointer-events-none absolute -inset-px opacity-0 transition duration-300"
+        style={{
+          opacity,
+          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(59, 130, 246, 0.1), transparent 40%)`,
+        }}
+      />
+      <div className="relative h-full">{children}</div>
+    </div>
+  );
+};
+
+// Scroll Reveal Component
+interface RevealOnScrollProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode;
+}
+
+const RevealOnScroll = ({ children, className = "", ...props }: RevealOnScrollProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`transition-all duration-1000 transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        } ${className}`}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
+
 const ImageCarousel = ({ images }: { images: string[] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -216,50 +312,35 @@ const ImageCarousel = ({ images }: { images: string[] }) => {
   if (!images || images.length === 0) return null;
 
   return (
-    <div className="relative w-full h-64 bg-gray-800 rounded-lg overflow-hidden mb-4 group">
+    <div className="relative w-full h-48 bg-gray-950 rounded-lg overflow-hidden mb-4 group border border-gray-800">
       <img
         src={images[currentIndex]}
         alt={`Screenshot ${currentIndex + 1}`}
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
       />
-      
+
       {/* Navigation Arrows */}
       {images.length > 1 && (
         <>
           <button
-            onClick={prevImage}
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={(e) => { e.stopPropagation(); prevImage(); }}
+            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity border border-gray-700"
           >
-            <ChevronRight className="w-5 h-5 rotate-180" />
+            <ChevronRight className="w-4 h-4 rotate-180" />
           </button>
           <button
-            onClick={nextImage}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={(e) => { e.stopPropagation(); nextImage(); }}
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity border border-gray-700"
           >
-            <ChevronRight className="w-5 h-5" />
+            <ChevronRight className="w-4 h-4" />
           </button>
         </>
       )}
 
       {/* Image Counter */}
       {images.length > 1 && (
-        <div className="absolute bottom-2 right-2 bg-black/70 text-white px-3 py-1 rounded-full text-xs">
-          {currentIndex + 1} / {images.length}
-        </div>
-      )}
-
-      {/* Dot Indicators */}
-      {images.length > 1 && (
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
-          {images.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentIndex(idx)}
-              className={`w-2 h-2 rounded-full transition-all ${
-                idx === currentIndex ? 'bg-blue-400 w-4' : 'bg-white/50'
-              }`}
-            />
-          ))}
+        <div className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-0.5 rounded text-[10px] font-mono border border-gray-700">
+          {currentIndex + 1}/{images.length}
         </div>
       )}
     </div>
@@ -274,7 +355,7 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
-  
+
   useEffect(() => {
     if (isOpen && inputRef.current) {
       inputRef.current.focus();
@@ -290,7 +371,7 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
       }
     }
   }, [isOpen]);
-  
+
   const commands = {
     help: {
       description: 'Show all available commands',
@@ -331,7 +412,7 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         ''
       ]
     },
-    
+
     whoami: {
       description: 'Display user information',
       execute: () => [
@@ -347,7 +428,7 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         ''
       ]
     },
-    
+
     about: {
       description: 'Show profile information',
       execute: () => [
@@ -367,7 +448,7 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         ''
       ]
     },
-    
+
     projects: {
       description: 'List all projects',
       execute: () => {
@@ -389,7 +470,7 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         return lines;
       }
     },
-    
+
     experience: {
       description: 'Show work experience',
       execute: () => {
@@ -415,7 +496,7 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         return lines;
       }
     },
-    
+
     education: {
       description: 'Show education details',
       execute: () => {
@@ -435,7 +516,7 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         return lines;
       }
     },
-    
+
     skills: {
       description: 'Display tech stack',
       execute: () => [
@@ -457,7 +538,7 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         ''
       ]
     },
-    
+
     contact: {
       description: 'Show contact information',
       execute: () => [
@@ -474,7 +555,7 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         ''
       ]
     },
-    
+
     resume: {
       description: 'View resume details',
       execute: () => [
@@ -492,7 +573,7 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         ''
       ]
     },
-    
+
     github: {
       description: 'Open GitHub profile',
       execute: () => {
@@ -500,7 +581,7 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         return ['', `✓ Opening GitHub profile: github.com/${data.personal.github}`, ''];
       }
     },
-    
+
     linkedin: {
       description: 'Open LinkedIn profile',
       execute: () => {
@@ -508,7 +589,7 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         return ['', `✓ Opening LinkedIn profile: linkedin.com/in/${data.personal.linkedin}`, ''];
       }
     },
-    
+
     email: {
       description: 'Copy email address',
       execute: () => {
@@ -516,7 +597,7 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         return ['', `✓ Email copied to clipboard: ${data.personal.email}`, ''];
       }
     },
-    
+
     stats: {
       description: 'Show GitHub statistics',
       execute: () => [
@@ -534,7 +615,7 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         ''
       ]
     },
-    
+
     history: {
       description: 'Show command history',
       execute: () => {
@@ -549,7 +630,7 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         return lines;
       }
     },
-    
+
     ascii: {
       description: 'Display ASCII art',
       execute: () => [
@@ -565,53 +646,53 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         ''
       ]
     },
-    
+
     theme: {
       description: 'Toggle color theme',
       execute: () => ['', '🎨 Theme toggle coming soon!', ''],
     },
-    
+
     clear: {
       description: 'Clear terminal',
       execute: () => null
     },
-    
+
     exit: {
       description: 'Close terminal',
       execute: () => null
     }
   };
-  
+
   const handleCommand = (cmd: string) => {
     if (!cmd.trim()) return;
-    
+
     // Add to history
     setCommandHistory(prev => [...prev, cmd]);
     setHistoryIndex(-1);
-    
+
     const parts = cmd.trim().toLowerCase().split(' ');
     const command = parts[0];
     const args = parts.slice(1);
-    
+
     // Handle special commands
     if (command === 'clear') {
       setOutput([]);
       setQuery('');
       return;
     }
-    
+
     if (command === 'exit') {
       onClose();
       return;
     }
-    
+
     // Handle open <project>
     if (command === 'open' && args.length > 0) {
       const projectName = args.join(' ');
-      const project = data.projects.find(p => 
+      const project = data.projects.find(p =>
         p.name.toLowerCase().includes(projectName)
       );
-      
+
       if (project) {
         window.open(project.github, '_blank');
         setOutput([...output, `$ ${cmd}`, '', `✓ Opening ${project.name} on GitHub...`, '']);
@@ -621,14 +702,14 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
       setQuery('');
       return;
     }
-    
+
     // Handle demo <project>
     if (command === 'demo' && args.length > 0) {
       const projectName = args.join(' ');
-      const project = data.projects.find(p => 
+      const project = data.projects.find(p =>
         p.name.toLowerCase().includes(projectName) && p.live
       );
-      
+
       if (project && project.live) {
         window.open(project.live, '_blank');
         setOutput([...output, `$ ${cmd}`, '', `✓ Opening ${project.name} live demo...`, '']);
@@ -638,7 +719,7 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
       setQuery('');
       return;
     }
-    
+
     // Execute command
     if (commands[command as keyof typeof commands]) {
       const result = commands[command as keyof typeof commands].execute();
@@ -646,7 +727,7 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
       setOutput([...output, `$ ${cmd}`, ...result]);
     } else {
       setOutput([
-        ...output, 
+        ...output,
         `$ ${cmd}`,
         '',
         `✗ Command not found: ${command}`,
@@ -654,10 +735,10 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         ''
       ]);
     }
-    
+
     setQuery('');
   };
-  
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleCommand(query);
@@ -684,9 +765,9 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
       }
     }
   };
-  
+
   if (!isOpen) return null;
-  
+
   return (
     <div className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-gray-950 rounded-lg w-full max-w-4xl shadow-2xl border border-gray-700 overflow-hidden">
@@ -705,12 +786,12 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
             <X className="w-5 h-5" />
           </button>
         </div>
-        
+
         {/* Terminal Output */}
         <div className="p-6 h-[600px] overflow-y-auto font-mono text-sm bg-gray-950">
           {output.map((line, i) => (
-            <div 
-              key={i} 
+            <div
+              key={i}
               className={`
                 ${line.startsWith('$') ? 'text-green-400 mt-3 mb-1' : ''}
                 ${line.startsWith('✓') ? 'text-green-400' : ''}
@@ -722,7 +803,7 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
               {line || '\u00A0'}
             </div>
           ))}
-          
+
           {/* Input Line */}
           <div className="flex items-center gap-2 mt-3">
             <span className="text-green-400">$</span>
@@ -742,11 +823,120 @@ const CommandPalette = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
   );
 };
 
-// Main Portfolio Component
+
+// Animated Terminal Component
+const AnimatedTerminal = () => {
+  const [currentText, setCurrentText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const commands = [
+    { cmd: '$ java -jar WealthWise.jar', color: 'text-orange-400' },
+    { cmd: '$ npm run dev', color: 'text-green-400' },
+    { cmd: '$ docker-compose up', color: 'text-blue-400' },
+    { cmd: '$ git push origin main', color: 'text-purple-400' },
+    { cmd: '$ mvn spring-boot:run', color: 'text-red-400' },
+    { cmd: '$ kubectl apply -f deploy.yml', color: 'text-cyan-400' },
+    { cmd: '$ mysql -u root -p', color: 'text-yellow-400' },
+    { cmd: '$ aws s3 sync ./build s3://bucket', color: 'text-pink-400' },
+  ];
+
+  useEffect(() => {
+    const command = commands[currentIndex].cmd;
+
+    const timeout = setTimeout(() => {
+      if (!isDeleting) {
+        if (currentText.length < command.length) {
+          setCurrentText(command.slice(0, currentText.length + 1));
+        } else {
+          setTimeout(() => setIsDeleting(true), 2000);
+        }
+      } else {
+        if (currentText.length > 0) {
+          setCurrentText(currentText.slice(0, -1));
+        } else {
+          setIsDeleting(false);
+          setCurrentIndex((currentIndex + 1) % commands.length);
+        }
+      }
+    }, isDeleting ? 30 : 50);
+
+    return () => clearTimeout(timeout);
+  }, [currentText, isDeleting, currentIndex]);
+
+  return (
+    <div className="font-mono flex items-center gap-2 h-6">
+      <span className="text-green-400">{'>'}</span>
+      <span className={commands[currentIndex].color}>
+        {currentText}
+        <span className="animate-pulse">▊</span>
+      </span>
+    </div>
+  );
+};
+
+// CodeCompiler Component (Single Line Loop with Animated Dots)
+const CodeCompiler = () => {
+  const [stage, setStage] = useState(0);
+  const [dots, setDots] = useState('');
+
+  const stages = [
+    { text: '> KUNAL_MORE.init()', color: 'text-cyan-400' },
+    { text: '> Compiling Java bytecode', color: 'text-orange-400' },
+    { text: '> Starting Spring Boot', color: 'text-green-400' },
+    { text: '> Building React components', color: 'text-blue-400' },
+    { text: '> Containerizing with Docker', color: 'text-blue-300' },
+    { text: '> Deploying to AWS', color: 'text-yellow-400' },
+    { text: '✓ System Ready!', color: 'text-green-400', noDots: true },
+  ];
+
+  useEffect(() => {
+    // Reset dots when stage changes
+    if (stages[stage].noDots) {
+      setDots('');
+      const timeout = setTimeout(() => {
+        setStage((prev) => (prev + 1) % stages.length);
+      }, 3000); // Keep "System Ready" longer
+      return () => clearTimeout(timeout);
+    } else {
+      setDots('');
+      let count = 0;
+      const interval = setInterval(() => {
+        count++;
+        if (count <= 3) {
+          setDots('.'.repeat(count));
+        } else {
+          clearInterval(interval);
+          setTimeout(() => {
+            setStage((prev) => (prev + 1) % stages.length);
+          }, 1000); // Pause before switching
+        }
+      }, 800); // Speed of each dot
+
+      return () => clearInterval(interval);
+    }
+  }, [stage]);
+
+  return (
+    <div className="font-mono text-sm md:text-base font-bold bg-gray-900/80 px-4 py-2 rounded-full border border-gray-800 backdrop-blur-md shadow-2xl inline-flex items-center gap-3 min-w-[300px] justify-start">
+      <div className="flex gap-1.5">
+        <div className="w-2 h-2 rounded-full bg-red-500/80"></div>
+        <div className="w-2 h-2 rounded-full bg-yellow-500/80"></div>
+        <div className="w-2 h-2 rounded-full bg-green-500/80"></div>
+      </div>
+      <div className="h-4 w-px bg-gray-700 mx-1" />
+      <div className={`transition-colors duration-300 ${stages[stage].color}`}>
+        {stages[stage].text}{dots}
+        <span className="animate-pulse ml-1 inline-block w-2 h-4 bg-current align-middle opacity-50"></span>
+      </div>
+    </div>
+  );
+};
+
 export default function Portfolio() {
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [particles, setParticles] = useState<Particle[]>([]);
-  
+
   useEffect(() => {
     const newParticles: Particle[] = Array.from({ length: 30 }, (_, i) => ({
       id: i,
@@ -756,7 +946,7 @@ export default function Portfolio() {
       duration: Math.random() * 20 + 10
     }));
     setParticles(newParticles);
-    
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
@@ -767,11 +957,11 @@ export default function Portfolio() {
         setCommandPaletteOpen(true);
       }
     };
-    
+
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
-  
+
   return (
     <div className="min-h-screen bg-gray-950 text-white">
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
@@ -790,7 +980,7 @@ export default function Portfolio() {
           />
         ))}
       </div>
-      
+
       <nav className="fixed top-0 w-full backdrop-blur-md bg-gray-900/50 border-b border-gray-800 z-40">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="font-mono text-blue-400 font-bold">{'<KM />'}</div>
@@ -803,14 +993,14 @@ export default function Portfolio() {
           </button>
         </div>
       </nav>
-      
+
       <div className="relative pt-20">
         <section className="min-h-screen flex items-center justify-center px-6">
           <div className="max-w-4xl text-center space-y-8">
-            <div className="font-mono text-blue-400 animate-pulse">
-              {'> KUNAL_MORE.init()'}
+            <div className="mb-8 flex justify-center">
+              <CodeCompiler />
             </div>
-            
+
             <h1 className="text-6xl md:text-7xl font-bold tracking-tight">
               Backend Architect
               <br />
@@ -818,25 +1008,25 @@ export default function Portfolio() {
                 System Designer
               </span>
             </h1>
-            
+
             <p className="text-xl text-gray-400 max-w-2xl mx-auto">
               Building scalable enterprise systems with Java, Spring Boot, and modern cloud technologies.
               Currently crafting customer communication workflows at Quadient.
             </p>
-            
+
             <div className="flex gap-4 justify-center flex-wrap">
               <a href="#projects" className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-colors flex items-center gap-2">
                 View Projects <ChevronRight className="w-4 h-4" />
               </a>
-              <a 
-                href="/resume.pdf" 
+              <a
+                href="/resume.pdf"
                 download="Kunal_More_Resume.pdf"
                 className="px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-lg font-medium transition-colors flex items-center gap-2"
               >
                 <Download className="w-4 h-4" /> Resume
               </a>
             </div>
-            
+
             <div className="flex gap-6 justify-center text-gray-400">
               <a href={`https://github.com/${data.personal.github}`} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
                 <Github className="w-6 h-6" />
@@ -850,300 +1040,281 @@ export default function Portfolio() {
             </div>
           </div>
         </section>
-        
-        <section className="py-20 px-6">
+
+        <RevealOnScroll className="py-20 px-6">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl font-bold mb-12 flex items-center gap-3">
               <Terminal className="text-blue-400" />
-              System Overview
+              System Status
             </h2>
-            
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="space-y-6">
-                <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 backdrop-blur">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-blue-400 hover:border-purple-400 transition-all duration-300 hover:scale-110">
-  <img 
-    src="/profile.jpg" 
-    alt="Kunal More" 
-    className="w-full h-full object-cover"
-  />
-</div>
-                    <div>
-                      <div className="font-bold text-lg">{data.personal.name}</div>
-                      <div className="text-gray-400 text-sm">{data.personal.title}</div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              {/* Profile Card / Server Status */}
+              <SpotlightCard className="md:col-span-1 p-6">
+                <div className="flex flex-col items-center text-center">
+                  <div className="relative w-32 h-32 mb-6">
+                    <div className="absolute inset-4 rounded-full overflow-hidden border-2 border-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.3)]">
+                      <img
+                        src="/profile.jpg"
+                        alt="Kunal More"
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                   </div>
-                  
-                  <div className="space-y-3 text-sm">
-                    <div className="flex items-center gap-2 text-gray-300">
-                      <MapPin className="w-4 h-4 text-blue-400" />
-                      {data.personal.location}
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-300">
-                      <Briefcase className="w-4 h-4 text-green-400" />
-                      {data.personal.availability}
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-300">
-                      <Mail className="w-4 h-4 text-purple-400" />
-                      Response time: {data.personal.responseTime}
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 backdrop-blur">
-                  <h3 className="font-semibold mb-4 flex items-center gap-2">
-                    <Award className="w-5 h-5 text-yellow-400" />
-                    Quick Stats
+
+                  <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
+                    {data.personal.name}
                   </h3>
-                  <div className="grid grid-cols-2 gap-4 text-center">
-                    <div>
-                      <div className="text-2xl font-bold text-blue-400">2+</div>
-                      <div className="text-xs text-gray-400">Years Experience</div>
+                  <div className="text-sm font-mono text-blue-300 mb-4">{data.personal.title}</div>
+
+                  <div className="w-full space-y-3 font-mono text-xs text-left bg-black/20 p-4 rounded-lg border border-gray-800/50">
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">LOC:</span>
+                      <span className="text-gray-300">{data.personal.location}</span>
                     </div>
-                    <div>
-                      <div className="text-2xl font-bold text-green-400">8+</div>
-                      <div className="text-xs text-gray-400">Projects Built</div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">STATUS:</span>
+                      <span className="text-green-400">{data.personal.availability}</span>
                     </div>
-                    <div>
-                      <div className="text-2xl font-bold text-purple-400">10+</div>
-                      <div className="text-xs text-gray-400">Technologies</div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">UPTIME:</span>
+                      <span className="text-blue-300">2.5 Years</span>
                     </div>
-                    <div>
-                      <div className="text-2xl font-bold text-orange-400">100%</div>
-                      <div className="text-xs text-gray-400">Commitment</div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">PING:</span>
+                      <span className="text-yellow-300">24ms</span>
                     </div>
                   </div>
                 </div>
-              </div>
-              
-              <div className="space-y-4 text-gray-300">
-                <p>
-                  Software developer with strong expertise in backend development, cloud technologies, and modern web engineering.
-                  Currently working at Quadient on enterprise customer communication management systems.
-                </p>
-                <p>
-                  I specialize in building scalable, reliable applications using Java, Spring Boot, and microservices architecture.
-                  My experience spans from automated workflow development to full-stack web applications with React and REST APIs.
-                </p>
-                <p>
-                  Passionate about clean code, system design, and exploring emerging technologies like blockchain and cloud-native solutions.
-                </p>
-                
-                <div className="pt-4">
-                  <h3 className="font-semibold mb-3 text-white">Currently Exploring</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {['Spring', 'Hibernate', 'Apache Structs'].map(tech => (
-                      <span key={tech} className="px-3 py-1 bg-blue-500/20 border border-blue-500/30 rounded-full text-sm text-blue-300">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
+              </SpotlightCard>
+
+              {/* Stats & Description */}
+              <div className="md:col-span-2 space-y-6">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                  {[
+                    { label: "Experience", value: "1 Year", color: "text-blue-400", icon: Briefcase },
+                    { label: "Projects", value: "8+ Deployed", color: "text-green-400", icon: Server },
+                    { label: "Tech Stack", value: "10+ Tools", color: "text-purple-400", icon: Database },
+                    { label: "Commitment", value: "100%", color: "text-orange-400", icon: Award },
+                  ].map((stat, i) => (
+                    <SpotlightCard key={i} className="p-4 flex flex-col items-center justify-center text-center group hover:border-blue-500/50 transition-colors">
+                      <stat.icon className={`w-6 h-6 mb-2 ${stat.color} opacity-70 group-hover:opacity-100 transition-opacity`} />
+                      <div className={`text-xl font-bold ${stat.color}`}>{stat.value}</div>
+                      <div className="text-xs text-gray-500 uppercase tracking-wider mt-1">{stat.label}</div>
+                    </SpotlightCard>
+                  ))}
                 </div>
+
+                <SpotlightCard className="p-6 relative">
+                  <div className="absolute top-0 right-0 p-4 opacity-10">
+                    <Terminal className="w-24 h-24" />
+                  </div>
+                  <h3 className="text-lg font-semibold mb-4 text-blue-300 font-mono flex items-center gap-2">
+                    <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" />
+                    /var/log/about_me.txt
+                  </h3>
+                  <div className="mb-4 opacity-80 scale-90 origin-top-left -ml-2">
+                    <AnimatedTerminal />
+                  </div>
+                  <div className="space-y-4 font-mono text-sm text-gray-400 leading-relaxed relative z-10">
+                    <p>
+                      <span className="text-green-400">➜</span> Software developer with strong expertise in <span className="text-gray-200">backend development</span>, <span className="text-gray-200">cloud technologies</span>, and modern web engineering. Currently optimizing enterprise workflows at <span className="text-blue-300">Quadient</span>.
+                    </p>
+                    <p>
+                      <span className="text-green-400">➜</span> I specialize in building scalable, reliable applications using <span className="text-orange-300">Java</span>, <span className="text-green-300">Spring Boot</span>, and microservices architecture.
+                    </p>
+                    <div className="pt-2 flex flex-wrap gap-2">
+                      <span className="text-gray-500"># tags:</span>
+                      {['CleanCode', 'SystemDesign', 'CloudNative', 'Blockchain'].map(tag => (
+                        <span key={tag} className="text-blue-400/60 bg-blue-900/10 px-2 rounded hover:text-blue-300 hover:bg-blue-900/30 cursor-crosshair transition-all">
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </SpotlightCard>
               </div>
             </div>
           </div>
-        </section>
-        
-        <section className="py-20 px-6 bg-gray-900/30">
+        </RevealOnScroll>
+
+        <RevealOnScroll className="py-20 px-6 bg-gray-900/30">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl font-bold mb-12 flex items-center gap-3">
               <Code className="text-blue-400" />
               Tech Stack
             </h2>
-            
+
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 backdrop-blur hover:border-blue-500 transition-colors">
-                <div className="flex items-center gap-3 mb-4">
-                  <Server className="w-6 h-6 text-blue-400" />
-                  <h3 className="font-semibold">Backend</h3>
-                </div>
-                <div className="space-y-2">
-                  {data.skills.backend.map(skill => (
-                    <div key={skill} className="text-sm text-gray-400">{skill}</div>
-                  ))}
-                </div>
-              </div>
-              
-              <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 backdrop-blur hover:border-purple-500 transition-colors">
-                <div className="flex items-center gap-3 mb-4">
-                  <Code className="w-6 h-6 text-purple-400" />
-                  <h3 className="font-semibold">Frontend</h3>
-                </div>
-                <div className="space-y-2">
-                  {data.skills.frontend.map(skill => (
-                    <div key={skill} className="text-sm text-gray-400">{skill}</div>
-                  ))}
-                </div>
-              </div>
-              
-              <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 backdrop-blur hover:border-green-500 transition-colors">
-                <div className="flex items-center gap-3 mb-4">
-                  <Cloud className="w-6 h-6 text-green-400" />
-                  <h3 className="font-semibold">DevOps</h3>
-                </div>
-                <div className="space-y-2">
-                  {data.skills.devops.map(skill => (
-                    <div key={skill} className="text-sm text-gray-400">{skill}</div>
-                  ))}
-                </div>
-              </div>
-              
-              <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 backdrop-blur hover:border-orange-500 transition-colors">
-                <div className="flex items-center gap-3 mb-4">
-                  <Database className="w-6 h-6 text-orange-400" />
-                  <h3 className="font-semibold">Databases</h3>
-                </div>
-                <div className="space-y-2">
-                  {data.skills.databases.map(skill => (
-                    <div key={skill} className="text-sm text-gray-400">{skill}</div>
-                  ))}
-                </div>
-              </div>
+              {[
+                { name: 'Backend', icon: Server, color: 'text-blue-400', skills: data.skills.backend },
+                { name: 'Frontend', icon: Code, color: 'text-purple-400', skills: data.skills.frontend },
+                { name: 'DevOps', icon: Cloud, color: 'text-green-400', skills: data.skills.devops },
+                { name: 'Databases', icon: Database, color: 'text-orange-400', skills: data.skills.databases }
+              ].map((category, idx) => (
+                <SpotlightCard key={idx} className="p-6 transition-transform hover:-translate-y-1">
+                  <div className="flex items-center gap-3 mb-6 border-b border-gray-800 pb-4">
+                    <category.icon className={`w-6 h-6 ${category.color}`} />
+                    <h3 className="font-semibold text-lg">{category.name}</h3>
+                  </div>
+                  <div className="space-y-3">
+                    {category.skills.map(skill => (
+                      <div key={skill} className="flex items-center gap-2 group/skill">
+                        <div className={`w-1.5 h-1.5 rounded-full bg-gray-600 group-hover/skill:bg-current ${category.color.replace('text', 'text')}`} />
+                        <span className="text-sm text-gray-400 group-hover/skill:text-gray-200 transition-colors">{skill}</span>
+                      </div>
+                    ))}
+                  </div>
+                </SpotlightCard>
+              ))}
             </div>
           </div>
-        </section>
-        
-        <section className="py-20 px-6">
+        </RevealOnScroll>
+
+        <RevealOnScroll className="py-20 px-6">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl font-bold mb-12 flex items-center gap-3">
               <Briefcase className="text-blue-400" />
               Experience
             </h2>
-            
+
             <div className="space-y-8">
               {data.experience.map((exp, i) => (
-                <div key={i} className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 backdrop-blur hover:border-blue-500 transition-all">
-                  <div className="flex gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-400 to-purple-400 flex items-center justify-center font-bold text-lg flex-shrink-0">
+                <SpotlightCard key={i} className="p-6 md:p-8">
+                  <div className="flex flex-col md:flex-row gap-6">
+                    <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-500/30 flex items-center justify-center font-bold text-2xl flex-shrink-0 text-blue-300">
                       {exp.logo}
                     </div>
-                    
+
                     <div className="flex-1">
-                      <div className="flex items-start justify-between mb-2">
+                      <div className="flex flex-col md:flex-row md:items-start justify-between mb-4 gap-2">
                         <div>
-                          <h3 className="font-bold text-lg">{exp.role}</h3>
-                          <div className="text-blue-400">{exp.company}</div>
+                          <h3 className="font-bold text-xl text-white">{exp.role}</h3>
+                          <div className="text-blue-400 font-medium">{exp.company}</div>
                         </div>
-                        <div className="text-sm text-gray-400 flex items-center gap-1">
-                          <Calendar className="w-4 h-4" />
+                        <div className="text-sm font-mono text-gray-400 bg-gray-800/50 px-3 py-1 rounded-full border border-gray-700 w-fit">
+                          <span className="mr-2">🗓️</span>
                           {exp.period}
                         </div>
                       </div>
-                      
-                      <p className="text-gray-400 mb-4">{exp.description}</p>
-                      
-                      <div className="space-y-2 mb-4">
+
+                      <p className="text-gray-300 mb-6 leading-relaxed">{exp.description}</p>
+
+                      <div className="space-y-3 mb-6">
                         {exp.achievements.map((achievement, j) => (
-                          <div key={j} className="flex items-start gap-2 text-sm text-gray-300">
-                            <ChevronRight className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
-                            {achievement}
+                          <div key={j} className="flex items-start gap-3 text-sm text-gray-400 group">
+                            <span className="text-green-400 mt-1 select-none">➜</span>
+                            <span className="group-hover:text-gray-200 transition-colors">{achievement}</span>
                           </div>
                         ))}
                       </div>
-                      
+
                       <div className="flex flex-wrap gap-2">
                         {exp.tech.map(tech => (
-                          <span key={tech} className="px-2 py-1 bg-gray-800 rounded text-xs text-gray-300">
+                          <span key={tech} className="px-2.5 py-1 bg-blue-500/10 border border-blue-500/20 rounded-md text-xs text-blue-300 font-mono">
                             {tech}
                           </span>
                         ))}
                       </div>
                     </div>
                   </div>
-                </div>
+                </SpotlightCard>
               ))}
             </div>
           </div>
-        </section>
-        
-        <section id="projects" className="py-20 px-6 bg-gray-900/30">
+        </RevealOnScroll>
+
+        <RevealOnScroll className="py-20 px-6 bg-gray-900/30" id="projects">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl font-bold mb-12 flex items-center gap-3">
               <Github className="text-blue-400" />
               Featured Projects
             </h2>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {data.projects.map((project, i) => (
-                <div
+                <SpotlightCard
                   key={i}
-                  className={`bg-gray-900/50 border rounded-lg p-6 backdrop-blur hover:scale-105 transition-all ${
-                    project.featured ? 'border-blue-500 md:col-span-2' : 'border-gray-800 hover:border-blue-500'
-                  }`}
+                  className={`p-6 flex flex-col h-full ${project.featured ? 'md:col-span-2' : ''}`}
                 >
-                  {project.featured && (
-                    <div className="inline-block px-2 py-1 bg-blue-500/20 border border-blue-500 rounded text-xs text-blue-300 mb-3">
-                      Featured
+                  <div className="mb-4 flex justify-between items-start">
+                    <div>
+                      {project.featured && (
+                        <div className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded text-[10px] text-yellow-300 mb-2 uppercase tracking-wide font-bold">
+                          <Award className="w-3 h-3" /> Featured
+                        </div>
+                      )}
+                      <h3 className="font-bold text-xl">{project.name}</h3>
                     </div>
-                  )}
+                    <div className="flex gap-2">
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-400 hover:text-white transition-colors"
+                      >
+                        <Github className="w-5 h-5" />
+                      </a>
+                      {project.live && (
+                        <a
+                          href={project.live}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1 text-green-400 hover:text-green-300 transition-colors font-medium text-sm border border-green-500/30 px-2 py-0.5 rounded bg-green-500/10"
+                        >
+                          <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span className="mobile-relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                          </span>
+                          Live
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
                   {project.images && project.images.length > 0 && (
-        <ImageCarousel images={project.images} />
-      )}
-                  
-                  <h3 className="font-bold text-xl mb-2">{project.name}</h3>
-                  <p className="text-gray-400 mb-4 text-sm">{project.description}</p>
-                  
-                  <div className="flex flex-wrap gap-2 mb-4">
+                    <ImageCarousel images={project.images} />
+                  )}
+
+                  <p className="text-gray-400 mb-6 text-sm leading-relaxed flex-grow">{project.description}</p>
+
+                  <div className="flex flex-wrap gap-2 mt-auto">
                     {project.tech.map(tech => (
-                      <span key={tech} className="px-2 py-1 bg-gray-800 rounded text-xs text-gray-300">
+                      <span key={tech} className="px-2 py-1 bg-gray-800/80 border border-gray-700/50 rounded text-xs text-gray-300">
                         {tech}
                       </span>
                     ))}
                   </div>
-                  
-                  <div className="flex gap-3">
-                    
-                    <a 
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 transition-colors"
-                    >
-                      <Github className="w-4 h-4" /> Code
-                    </a>
-                    {project.live && (
-                      
-                      <a 
-                        href={project.live}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-1 text-sm text-green-400 hover:text-green-300 transition-colors"
-                      >
-                        <ExternalLink className="w-4 h-4" /> Live 
-                      </a>
-                    )}
-                  </div>
-                </div>
+                </SpotlightCard>
               ))}
             </div>
           </div>
-        </section>
-        
-        <section className="py-20 px-6">
+        </RevealOnScroll>
+
+        <RevealOnScroll className="py-20 px-6">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl font-bold mb-12 flex items-center gap-3">
               <GraduationCap className="text-blue-400" />
               Education
             </h2>
-            
+
             <div className="grid md:grid-cols-2 gap-6">
               {data.education.map((edu, i) => (
-                <div key={i} className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 backdrop-blur hover:border-blue-500 transition-colors">
+                <SpotlightCard key={i} className="p-6">
                   <div className="font-bold text-lg mb-1">{edu.degree}</div>
-                  <div className="text-blue-400 mb-2">{edu.institution}</div>
-                  {edu.description && <div className="text-gray-400 text-sm mb-2">{edu.description}</div>}
-                  <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <div className="text-blue-400 mb-4 font-medium">{edu.institution}</div>
+                  {edu.description && <div className="text-gray-400 text-sm mb-4 leading-relaxed">{edu.description}</div>}
+                  <div className="flex items-center gap-2 text-sm text-gray-500 font-mono border-t border-gray-800 pt-4">
                     <Calendar className="w-4 h-4" />
                     {edu.year}
-                    {edu.cgpa && <span>• CGPA: {edu.cgpa}</span>}
+                    {edu.cgpa && <span className="text-green-400/80">• CGPA: {edu.cgpa}</span>}
                   </div>
-                </div>
+                </SpotlightCard>
               ))}
             </div>
           </div>
-        </section>
-        
+        </RevealOnScroll>
+
         <section className="py-20 px-6 bg-gray-900/30">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl font-bold mb-6">Let&apos;s Build Something Incredible</h2>
@@ -1151,17 +1322,17 @@ export default function Portfolio() {
               Open to discussing new opportunities, collaborations, or just chatting about technology.
               I typically respond within 24 hours.
             </p>
-            
+
             <div className="flex gap-4 justify-center flex-wrap mb-8">
-              
-              <a 
+
+              <a
                 href={`mailto:${data.personal.email}`}
                 className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-colors flex items-center gap-2"
               >
                 <Mail className="w-4 h-4" /> Email Me
               </a>
-              
-              <a 
+
+              <a
                 href={`https://linkedin.com/in/${data.personal.linkedin}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -1169,8 +1340,8 @@ export default function Portfolio() {
               >
                 <Linkedin className="w-4 h-4" /> LinkedIn
               </a>
-              
-              <a 
+
+              <a
                 href={`https://github.com/${data.personal.github}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -1179,13 +1350,13 @@ export default function Portfolio() {
                 <Github className="w-4 h-4" /> GitHub
               </a>
             </div>
-            
+
             <div className="text-sm text-gray-500">
               💡 Pro tip: Press <kbd className="px-2 py-1 bg-gray-800 rounded">Cmd/Ctrl + K</kbd> or <kbd className="px-2 py-1 bg-gray-800 rounded">/</kbd> to open the command terminal
             </div>
           </div>
         </section>
-        
+
         <footer className="py-8 px-6 border-t border-gray-800">
           <div className="max-w-6xl mx-auto flex items-center justify-between text-sm text-gray-400">
             <div>© 2026 Kunal More. Built with React + Next.js</div>
@@ -1195,12 +1366,12 @@ export default function Portfolio() {
           </div>
         </footer>
       </div>
-      
+
       <CommandPalette
         isOpen={commandPaletteOpen}
         onClose={() => setCommandPaletteOpen(false)}
       />
-      
+
       <style>{`
         @keyframes float {
           0%, 100% { transform: translateY(0); }
