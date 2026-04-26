@@ -176,6 +176,21 @@ const data = {
         "/projects/dinezzy/6.png"
       ],
       featured: true
+    },
+    {
+      name: "Landing OTP Project",
+      description: "Secure phone number login system using Firebase Authentication. Features SMS OTP verification, JWT token generation, and protected routes.",
+      tech: ["React 18", "Vite 5", "Firebase", "React Router 6", "CSS Modules", "Vercel"],
+      github: "https://github.com/Voldemond/LandingPageOTP",
+      live: "https://landing-page-otp.vercel.app/login",
+      images: [
+        "/projects/landing/1.png",
+        "/projects/landing/2.png",
+        "/projects/landing/3.png",
+        "/projects/landing/4.png",
+        "/projects/landing/5.png"
+      ],
+      featured: false
     }
   ],
 
